@@ -6,56 +6,65 @@ using System.Threading.Tasks;
 
 namespace Academy
 {
-    class Student:Human
+    class Student : Human
     {
-        public string Speciality { get; set; }  
+        const int SPECIALITY_WIDTH = 20;
+        const int GROUP_WIDTH = 8;
+        const int RATING_WIDTH = 6;
+        const int ATTENDANCE_WIDTH = 6;
+        public string Speciality { get; set; }
         public string Group { get; set; }
         public double Rating { get; set; }
         public double Attendance { get; set; }
-        public string V1 { get; }
-        public string V2 { get; }
-        public int V3 { get; }
-        public int V4 { get; }
-
-        public Student(
+        public Student
+            (
             string lastName, string firstName, int age,
-            string speciality, string group, double rating, double attendance)
-            :base(lastName, firstName, age)
+            string speciality, string group, double rating, double attendance
+            ) : base(lastName, firstName, age)
         {
             Speciality = speciality;
             Group = group;
             Rating = rating;
             Attendance = attendance;
-            Console.WriteLine("SConstrucor:\t" + GetHashCode());
+            Console.WriteLine("SConstructor:\t" + GetHashCode());
         }
-        public Student(Human human, string speciality, double rating, double attendance) : base(human)
+        public Student(Human human, string speciality, string group, double rating, double attendance) : base(human)
         {
-            Speciality = speciality;    
+            Speciality = speciality;
+            Group = group;
             Rating = rating;
             Attendance = attendance;
             Console.WriteLine("SConstructor:\t" + GetHashCode());
         }
-        public Student(Student other):base(other)
+        public Student(Student other) : base(other)
         {
             this.Speciality = other.Speciality;
             this.Group = other.Group;
             this.Rating = other.Rating;
             this.Attendance = other.Attendance;
-            Console.WriteLine("SCopyConstructor:\t" + GetHashCode());
+            Console.WriteLine("SCopyConstructor:" + GetHashCode());
+        }
+        ~Student()
+        {
+            Console.WriteLine("SDestructor:\t" + GetHashCode());
         }
 
-     
-
-        ~Student() { Console.WriteLine("SDestructor:\t" + GetHashCode()); }
-
-        public void Info()
+        public override void Info()
         {
             base.Info();
-            Console.WriteLine($"{Speciality} {Group} {Rating} {Attendance}");
+            Console.Write($"{Speciality.PadRight(SPECIALITY_WIDTH)} {Group.PadRight(GROUP_WIDTH)} {Rating.ToString().PadRight(RATING_WIDTH)} {Attendance.ToString().PadRight(ATTENDANCE_WIDTH)}");
         }
         public override string ToString()
         {
-            return base.ToString() + $" {Speciality} {Group} {Rating} {Attendance}";
+            return base.ToString() + $",{Speciality},{Group},{Rating},{Attendance}";
+        }
+        public override void Init(string[] values)
+        {
+            base.Init(values);
+            Speciality = values[4];
+            Group = values[5];
+            Rating = Convert.ToDouble(values[6]);
+            Attendance = Convert.ToDouble(values[7]);
         }
     }
 }

@@ -6,33 +6,45 @@ using System.Threading.Tasks;
 
 namespace Academy
 {
-    internal class Human
+    class Human
     {
+        const int LAST_NAME_WIDTH = 10;
+        const int FIRST_NAME_WIDTH = 8;
+        const int AGE_WIDTH = 5;
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public int Age { get; set; }
         public Human(string lastName, string firstName, int age)
         {
-            FirstName = firstName;
             LastName = lastName;
+            FirstName = firstName;
             Age = age;
             Console.WriteLine("HConstructor:\t" + GetHashCode());
         }
-        public Human(Human other) 
+        public Human(Human other)
         {
             this.LastName = other.LastName;
             this.FirstName = other.FirstName;
             this.Age = other.Age;
-            Console.WriteLine("HCopyConstructor:\t" + GetHashCode());
+            Console.WriteLine("HCopyConstructor:" + GetHashCode());
         }
-        ~Human() { Console.WriteLine("HDestructor:\t" + GetHashCode()); }
-        public void Info()
+        ~Human()
         {
-            Console.WriteLine($"{LastName} {FirstName} {Age}yo");
+            Console.WriteLine("HDestructor:\t" + GetHashCode());
+        }
+        public virtual void Info()
+        {
+            Console.Write($"{LastName.PadRight(LAST_NAME_WIDTH)} {FirstName.PadRight(FIRST_NAME_WIDTH)} {Age.ToString().PadRight(AGE_WIDTH)}");
         }
         public override string ToString()
         {
-            return $"{LastName} {FirstName} {Age}yo";
-       }
+            return $"{LastName},{FirstName},{Age}";
+        }
+        public virtual void Init(string[] values)
+        {
+            LastName = values[1];
+            FirstName = values[2];
+            Age = Convert.ToInt32(values[3]);
+        }
     }
 }
